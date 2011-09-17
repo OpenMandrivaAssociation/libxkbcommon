@@ -40,7 +40,7 @@ input devices, an X application, or a wayland client itself.
 %package -n %{develname}
 Summary: Development files for %{name}
 Group: Development/X11
-Requires: %{libname} >= %{version}
+Requires: %{libname} = %{version}-%{release}
 Requires: x11-proto-devel >= 1.0.0
 Provides: %{name}-devel = %{version}-%{release}
 
@@ -51,7 +51,7 @@ a library that translates evdev keycodes to keysyms.
 %package -n %{staticdevelname}
 Summary: Static development files for %{name}
 Group: Development/X11
-Requires: %{develname} >= %{version}
+Requires: %{develname} = %{version}-%{release}
 Provides: %{name}-static-devel = %{version}-%{release}
 
 %description -n %{staticdevelname}
