@@ -6,7 +6,7 @@
 
 Name: libxkbcommon
 Version: 0.1.0
-Release: %mkrel 0.%{snapshot}.0
+Release: 0.%{snapshot}.0
 Summary: Library to translate evdev keycodes to keysyms
 Group: Development/X11
 License: MIT
