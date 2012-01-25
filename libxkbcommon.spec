@@ -83,7 +83,6 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/libxkbcommon.so
-#%{_libdir}/libxkbcommon.la
 %{_libdir}/pkgconfig/xkbcommon.pc
 %{_includedir}/X11/extensions/XKBcommon.h
 
