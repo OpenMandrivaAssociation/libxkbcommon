@@ -14,6 +14,7 @@ Source0: %{name}-%{version}.%{snapshot}.tar.xz
 BuildRequires: libx11-devel >= 1.0.0
 BuildRequires: x11-proto-devel >= 1.0.0
 BuildRequires: x11-util-macros >= 1.0.1
+Buildrequires: byacc flex bison
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
