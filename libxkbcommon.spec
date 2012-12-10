@@ -83,9 +83,25 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/libxkbcommon.so
+#%{_libdir}/libxkbcommon.la
 %{_libdir}/pkgconfig/xkbcommon.pc
 %{_includedir}/X11/extensions/XKBcommon.h
 
 %files -n %{staticdevelname}
 %defattr(-,root,root)
 %{_libdir}/libxkbcommon.a
+
+
+%changelog
+* Wed Jan 25 2012 Antoine Ginies <aginies@mandriva.com> 0.1.0-0.20120125.0
++ Revision: 768253
+- 20120125 snapshot
+
+* Wed Jan 25 2012 Antoine Ginies <aginies@mandriva.com> 0.1.0-0.20110917.0
++ Revision: 768244
+- remove missing file libxkbcommon.la
+- add missing BR
+
+  + Claudio Matsuoka <claudio@mandriva.com>
+    - imported package libxkbcommon
+
