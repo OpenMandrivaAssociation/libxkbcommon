@@ -1,107 +1,91 @@
-%define major 0
-%define libname %mklibname xkbcommon %{major}
-%define develname %mklibname xkbcommon -d
-%define staticdevelname %mklibname xkbcommon -d -s
-%define snapshot 20120125
+%define bname xkbcommon
+%define name lib%{bname}
+%define version 0.3.1
+%define date 0
+%define git 0
+%define pkgrel 1
+%if %git
+%define rel 0.%{date}.%{pkgrel}
+%define distname %{name}-%{date}
+%define srcname %{name}-%{git}
+%else
+%define rel %{pkgrel}
+%define distname %{name}-%{version}
+%define srcname %{distname}
+%endif
+%define release %mkrel %{rel}
 
-Name: libxkbcommon
-Version: 0.1.0
-Release: 0.%{snapshot}.0
-Summary: Library to translate evdev keycodes to keysyms
-Group: Development/X11
-License: MIT
-Source0: %{name}-%{version}.%{snapshot}.tar.bz2
-BuildRequires: libx11-devel >= 1.0.0
-BuildRequires: x11-proto-devel >= 1.0.0
-BuildRequires: x11-util-macros >= 1.0.1
-Buildrequires: byacc flex bison
-BuildRoot: %{_tmppath}/%{name}-root
+%define major 0
+%define libname %mklibname %{bname} %{major}
+%define libname_devel %mklibname %{bname} -d
+
+Summary:	XKB API common to servers and clients	
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+# https://github.com/xkbcommon/libxkbcommon
+# DATE=$(git show -s --pretty=%ai | awk '{ gsub("-", "", $1); print $1 }'); NAME=libxkbcommon-$DATE ; git archive --format=tar.gz --prefix=$NAME/ HEAD > $NAME.tar.gz
+Source0:	http://xkbcommon.org/download/%{distname}.tar.xz
+License:	MIT
+Group:		System/Libraries
+Url:		http://xkbcommon.org/
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	x11-util-macros
+BuildRequires:	doxygen
+# to auto-detect XKB config root
+BuildRequires:	x11-data-xkbdata
 
 %description
-A library that translates evdev keycodes to keysyms, used by Wayland.
-
-Wayland is a protocol for a compositor to talk to its clients as well
-as a C library implementation of that protocol. The compositor can be a
-standalone display server running on Linux kernel modesetting and evdev
-input devices, an X application, or a wayland client itself.
+The %{name} package provides XKB API common to servers and clients.
 
 %package -n %{libname}
-Summary: Library to translate evdev keycodes to keysyms
-Group: Development/X11
-Provides: %{name} = %{version}
+Summary:	Libraries for %{name}
+Group:		System/Libraries
 
 %description -n %{libname}
-A library that translates evdev keycodes to keysyms, used by Wayland.
+This package contains the libraries for %{name}.
 
-Wayland is a protocol for a compositor to talk to its clients as well
-as a C library implementation of that protocol. The compositor can be a
-standalone display server running on Linux kernel modesetting and evdev
-input devices, an X application, or a wayland client itself.
+%package -n %{libname_devel}
+Summary:	Header files for %{name}
+Group:		Development/C
+Provides:	%{name}-devel = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
 
-%package -n %{develname}
-Summary: Development files for %{name}
-Group: Development/X11
-Requires: %{libname} = %{version}-%{release}
-Requires: x11-proto-devel >= 1.0.0
-Provides: %{name}-devel = %{version}-%{release}
+%description -n %{libname_devel}
+This package contains the header and pkg-config files for developing
+with %{name}.
 
-%description -n %{develname}
-This package contains development files for %{name},
-a library that translates evdev keycodes to keysyms.
-
-%package -n %{staticdevelname}
-Summary: Static development files for %{name}
-Group: Development/X11
-Requires: %{develname} = %{version}-%{release}
-Provides: %{name}-static-devel = %{version}-%{release}
-
-%description -n %{staticdevelname}
-This package contains static development files for %{name},
-a library that translates evdev keycodes to keysyms.
+%package doc
+Summary: %{name} documentation
+Group: Development/Other
+%description doc
+This package contains documentation of %{name}.
 
 %prep
-%setup -q
+%setup -q -n %{srcname}
+%apply_patches
+autoreconf -vfi
 
 %build
-./autogen.sh
-%configure2_5x \
-	--x-includes=%{_includedir}\
-	--x-libraries=%{_libdir}
+%configure2_5x --disable-static
 %make
 
 %install
-rm -rf %{buildroot}
-%makeinstall_std
-
-%clean
-rm -rf %{buildroot}
+%makeinstall
+rm -f %{buildroot}%{_libdir}/%{name}.la
 
 %files -n %{libname}
-%defattr(-,root,root)
-%{_libdir}/libxkbcommon.so.%{major}*
+%{_libdir}/%{name}.so.%{major}
+%{_libdir}/%{name}.so.%{major}.*
 
-%files -n %{develname}
-%defattr(-,root,root)
-%{_libdir}/libxkbcommon.so
-#%{_libdir}/libxkbcommon.la
-%{_libdir}/pkgconfig/xkbcommon.pc
-%{_includedir}/X11/extensions/XKBcommon.h
+%files -n %{libname_devel}
+%{_includedir}/%{bname}/%{bname}.h
+%{_includedir}/%{bname}/%{bname}-compat.h
+%{_includedir}/%{bname}/%{bname}-keysyms.h
+%{_includedir}/%{bname}/%{bname}-names.h
+%{_libdir}/%{name}.so
+%{_libdir}/pkgconfig/%{bname}.pc
 
-%files -n %{staticdevelname}
-%defattr(-,root,root)
-%{_libdir}/libxkbcommon.a
-
-
-%changelog
-* Wed Jan 25 2012 Antoine Ginies <aginies@mandriva.com> 0.1.0-0.20120125.0
-+ Revision: 768253
-- 20120125 snapshot
-
-* Wed Jan 25 2012 Antoine Ginies <aginies@mandriva.com> 0.1.0-0.20110917.0
-+ Revision: 768244
-- remove missing file libxkbcommon.la
-- add missing BR
-
-  + Claudio Matsuoka <claudio@mandriva.com>
-    - imported package libxkbcommon
-
+%files doc
+%doc %{_docdir}/%{name}/*
