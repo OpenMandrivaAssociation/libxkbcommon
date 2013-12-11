@@ -11,7 +11,7 @@ Summary:	Library to translate evdev keycodes to keysyms
 Group:		Development/X11
 License:	MIT
 Source0:	%{name}-%{version}.%{snapshot}.tar.bz2
-BuildRequires:	libx11-devel >= 1.0.0
+BuildRequires:	pkgconfig(x11)
 BuildRequires:	x11-proto-devel >= 1.0.0
 BuildRequires:	x11-util-macros >= 1.0.1
 BuildRequires:	byacc
