@@ -3,7 +3,7 @@
 %define version 0.3.1
 %define date 0
 %define git 0
-%define pkgrel 1
+%define pkgrel 2
 %if %git
 %define rel 0.%{date}.%{pkgrel}
 %define distname %{name}-%{date}
@@ -57,8 +57,9 @@ This package contains the header and pkg-config files for developing
 with %{name}.
 
 %package doc
-Summary: %{name} documentation
-Group: Development/Other
+Summary:	%{name} documentation
+Group:		Development/Other
+
 %description doc
 This package contains documentation of %{name}.
 
@@ -68,11 +69,14 @@ This package contains documentation of %{name}.
 autoreconf -vfi
 
 %build
-%configure2_5x --disable-static
+%configure2_5x \
+		--disable-static
+
 %make
 
 %install
-%makeinstall
+%makeinstall_std
+
 rm -f %{buildroot}%{_libdir}/%{name}.la
 
 %files -n %{libname}
