@@ -1,2 +1,4 @@
+removed_sources:
+libxkbcommon-0.1.0.20120125.tar.bz2: 4a10485382c401ad3e123494b4940770da503548
 sources:
-  "libxkbcommon-0.1.0.20120125.tar.bz2": 4a10485382c401ad3e123494b4940770da503548
+libxkbcommon-0.3.1.tar.xz: f885f3b89eb25ea32b5c9dfa69e5ea44118c829e
