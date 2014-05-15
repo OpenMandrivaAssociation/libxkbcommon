@@ -1,34 +1,16 @@
 %define bname xkbcommon
-%define name lib%{bname}
-%define version 0.3.1
-%define date 0
-%define git 0
-%define pkgrel 2
-%if %git
-%define rel 0.%{date}.%{pkgrel}
-%define distname %{name}-%{date}
-%define srcname %{name}-%{git}
-%else
-%define rel %{pkgrel}
-%define distname %{name}-%{version}
-%define srcname %{distname}
-%endif
-%define release %mkrel %{rel}
-
 %define major 0
 %define libname %mklibname %{bname} %{major}
 %define libname_devel %mklibname %{bname} -d
 
 Summary:	XKB API common to servers and clients	
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-# https://github.com/xkbcommon/libxkbcommon
-# DATE=$(git show -s --pretty=%ai | awk '{ gsub("-", "", $1); print $1 }'); NAME=libxkbcommon-$DATE ; git archive --format=tar.gz --prefix=$NAME/ HEAD > $NAME.tar.gz
-Source0:	http://xkbcommon.org/download/%{distname}.tar.xz
+Name:		libxkbcommon
+Version:	0.4.2
+Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
+Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	x11-util-macros
