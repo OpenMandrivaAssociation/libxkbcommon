@@ -15,6 +15,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	x11-util-macros
 BuildRequires:	doxygen
+BuildRequires:	pkgconfig(xcb-xkb)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
 
