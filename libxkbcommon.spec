@@ -46,7 +46,7 @@ Group:		Development/Other
 This package contains documentation of %{name}.
 
 %prep
-%setup -q -n %{srcname}
+%setup -q
 %apply_patches
 autoreconf -vfi
 
