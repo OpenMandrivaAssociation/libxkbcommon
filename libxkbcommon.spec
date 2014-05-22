@@ -1,7 +1,9 @@
 %define bname xkbcommon
 %define major 0
 %define libname %mklibname %{bname} %{major}
+%define libnamex11 %mklibname %{bname}-x11 %{major}
 %define libname_devel %mklibname %{bname} -d
+%define libnamex11_devel %mklibname %{bname}-x11 -d
 
 Summary:	XKB API common to servers and clients	
 Name:		libxkbcommon
@@ -29,6 +31,13 @@ Group:		System/Libraries
 %description -n %{libname}
 This package contains the libraries for %{name}.
 
+%package -n %{libnamex11}
+Summary:	Libraries for X11 bits of %{name}
+Group:		System/Libraries
+
+%description -n %{libnamex11}
+This package contains the libraries for X11 bits of %{name}.
+
 %package -n %{libname_devel}
 Summary:	Header files for %{name}
 Group:		Development/C
@@ -38,6 +47,16 @@ Requires:	%{libname} = %{version}-%{release}
 %description -n %{libname_devel}
 This package contains the header and pkg-config files for developing
 with %{name}.
+
+%package -n %{libnamex11_devel}
+Summary:	Header files for X11 bits of %{name}
+Group:		Development/C
+Requires:	%{libnamex11} = %{version}-%{release}
+Requires:	%{libname_devel} = %{version}-%{release}
+
+%description -n %{libnamex11_devel}
+This package contains the header and pkg-config files for developing
+with X11 bits of %{name}.
 
 %package doc
 Summary:	%{name} documentation
@@ -66,6 +85,10 @@ rm -f %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/%{name}.so.%{major}
 %{_libdir}/%{name}.so.%{major}.*
 
+%files -n %{libnamex11}
+%{_libdir}/%{name}-x11.so.%{major}
+%{_libdir}/%{name}-x11.so.%{major}.*
+
 %files -n %{libname_devel}
 %{_includedir}/%{bname}/%{bname}.h
 %{_includedir}/%{bname}/%{bname}-compat.h
@@ -73,6 +96,11 @@ rm -f %{buildroot}%{_libdir}/%{name}.la
 %{_includedir}/%{bname}/%{bname}-names.h
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{bname}.pc
+
+%files -n %{libnamex11_devel}
+%{_includedir}/%{bname}/%{bname}-x11.h
+%{_libdir}/%{name}-x11.so
+%{_libdir}/pkgconfig/%{bname}-x11.pc
 
 %files doc
 %doc %{_docdir}/%{name}/*
