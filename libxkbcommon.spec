@@ -7,8 +7,8 @@
 
 Summary:	XKB API common to servers and clients	
 Name:		libxkbcommon
-Version:	0.4.3
-Release:	2
+Version:	0.5.0
+Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -71,7 +71,7 @@ This package contains documentation of %{name}.
 autoreconf -vfi
 
 %build
-%configure2_5x \
+%configure \
 		--disable-static
 
 %make
