@@ -92,6 +92,7 @@ rm -f %{buildroot}%{_libdir}/%{name}.la
 %files -n %{libname_devel}
 %{_includedir}/%{bname}/%{bname}.h
 %{_includedir}/%{bname}/%{bname}-compat.h
+%{_includedir}/%{bname}/%{bname}-compose.h
 %{_includedir}/%{bname}/%{bname}-keysyms.h
 %{_includedir}/%{bname}/%{bname}-names.h
 %{_libdir}/%{name}.so
