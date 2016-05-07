@@ -8,7 +8,7 @@
 Summary:	XKB API common to servers and clients	
 Name:		libxkbcommon
 Version:	0.6.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -34,6 +34,9 @@ This package contains the libraries for %{name}.
 %package -n %{libnamex11}
 Summary:	Libraries for X11 bits of %{name}
 Group:		System/Libraries
+# (tpg) fix update from 2014.x
+Provides:	%{_lib}xkbcommon-x110 = 0.4.2-4
+Obsoletes:	%{_lib}xkbcommon-x110 < 0.4.2-4
 
 %description -n %{libnamex11}
 This package contains the libraries for X11 bits of %{name}.
@@ -72,7 +75,7 @@ autoreconf -vfi
 
 %build
 %configure \
-		--disable-static
+    --disable-static
 
 %make
 
