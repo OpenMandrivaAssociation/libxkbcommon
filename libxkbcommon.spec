@@ -5,10 +5,10 @@
 %define libname_devel %mklibname %{bname} -d
 %define libnamex11_devel %mklibname %{bname}-x11 -d
 
-Summary:	XKB API common to servers and clients	
+Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	0.6.1
-Release:	2
+Version:	0.7.0
+Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -18,6 +18,10 @@ BuildRequires:	flex
 BuildRequires:	x11-util-macros
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(xcb-xkb)
+BuildRequires:	pkgconfig(xkeyboard-config)
+BuildRequires:	pkgconfig(wayland-client)
+BuildRequires:	pkgconfig(wayland-scanner)
+BuildRequires:	pkgconfig(wayland-protocols)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
 
