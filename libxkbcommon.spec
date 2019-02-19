@@ -7,8 +7,8 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	0.8.2
-Release:	2
+Version:	0.8.3
+Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -73,18 +73,17 @@ Group:		Development/Other
 This package contains documentation of %{name}.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 autoreconf -vfi
 
 %build
 %configure \
     --disable-static
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 rm -f %{buildroot}%{_libdir}/%{name}.la
 
