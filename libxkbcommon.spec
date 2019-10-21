@@ -7,7 +7,7 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	0.8.4
+Version:	0.9.1
 Release:	1
 License:	MIT
 Group:		System/Libraries
@@ -17,6 +17,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	x11-util-macros
 BuildRequires:	doxygen
+BuildRequires:	meson
 BuildRequires:	pkgconfig(xcb-xkb)
 BuildRequires:	pkgconfig(xkeyboard-config)
 BuildRequires:	pkgconfig(wayland-client)
@@ -74,18 +75,14 @@ This package contains documentation of %{name}.
 
 %prep
 %autosetup -p1
-autoreconf -vfi
 
 %build
-%configure \
-    --disable-static
+%meson
 
-%make_build
+%meson_build
 
 %install
-%make_install
-
-rm -f %{buildroot}%{_libdir}/%{name}.la
+%meson_install
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}
