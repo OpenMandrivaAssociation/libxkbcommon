@@ -132,7 +132,10 @@ with X11 bits of %{name}.
 %prep
 %autosetup -p1
 %if %{with compat32}
-%meson32
+# FIXME at some point, we'll probably want to enable wayland.
+# For now, wine and steam games don't do wayland anyway.
+%meson32 \
+	-Denable-wayland=false
 %endif
 %meson
 
