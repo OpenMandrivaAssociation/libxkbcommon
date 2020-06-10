@@ -1,14 +1,23 @@
+# libxkbcommon is used by sdl2, used by wine and many games
+%ifarch %{x86_64}
+%bcond_without compat32
+%endif
+
 %define bname xkbcommon
 %define major 0
 %define libname %mklibname %{bname} %{major}
 %define libnamex11 %mklibname %{bname}-x11 %{major}
 %define libname_devel %mklibname %{bname} -d
 %define libnamex11_devel %mklibname %{bname}-x11 -d
+%define lib32name %mklib32name %{bname} %{major}
+%define lib32namex11 %mklib32name %{bname}-x11 %{major}
+%define lib32name_devel %mklib32name %{bname} -d
+%define lib32namex11_devel %mklib32name %{bname}-x11 -d
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	0.10.0
-Release:	2
+Release:	3
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -25,6 +34,14 @@ BuildRequires:	pkgconfig(wayland-scanner)
 BuildRequires:	pkgconfig(wayland-protocols)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
+%if %{with compat32}
+BuildRequires:	devel(libxcb-xkb)
+BuildRequires:	devel(libX11-xcb)
+BuildRequires:	devel(libX11)
+BuildRequires:	devel(libxcb)
+BuildRequires:	devel(libXau)
+BuildRequires:	devel(libXdmcp)
+%endif
 
 %description
 The %{name} package provides XKB API common to servers and clients.
@@ -74,15 +91,61 @@ Group:		Development/Other
 %description doc
 This package contains documentation of %{name}.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	Libraries for %{name} (32-bit)
+Group:		System/Libraries
+Requires:	xkeyboard-config
+
+%description -n %{lib32name}
+This package contains the libraries for %{name}.
+
+%package -n %{lib32namex11}
+Summary:	Libraries for X11 bits of %{name} (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32namex11}
+This package contains the libraries for X11 bits of %{name}.
+
+%package -n %{lib32name_devel}
+Summary:	Header files for %{name} (32-bit)
+Group:		Development/C
+Requires:	%{libname_devel} = %{version}-%{release}
+Requires:	%{lib32name} = %{version}-%{release}
+
+%description -n %{lib32name_devel}
+This package contains the header and pkg-config files for developing
+with %{name}.
+
+%package -n %{lib32namex11_devel}
+Summary:	Header files for X11 bits of %{name} (32-bit)
+Group:		Development/C
+Requires:	%{libnamex11_devel} = %{version}-%{release}
+Requires:	%{lib32namex11} = %{version}-%{release}
+Requires:	%{lib32name_devel} = %{version}-%{release}
+
+%description -n %{lib32namex11_devel}
+This package contains the header and pkg-config files for developing
+with X11 bits of %{name}.
+%endif
+
 %prep
 %autosetup -p1
-
-%build
+%if %{with compat32}
+%meson32
+%endif
 %meson
 
+%build
+%if %{with compat32}
+%ninja_build -C build32
+%endif
 %meson_build
 
 %install
+%if %{with compat32}
+%ninja_install -C build32
+%endif
 %meson_install
 
 %files -n %{libname}
@@ -109,3 +172,21 @@ This package contains documentation of %{name}.
 
 %files doc
 %doc %{_docdir}/%{name}/*
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/%{name}.so.%{major}
+%{_prefix}/lib/%{name}.so.%{major}.*
+
+%files -n %{lib32namex11}
+%{_prefix}/lib/%{name}-x11.so.%{major}
+%{_prefix}/lib/%{name}-x11.so.%{major}.*
+
+%files -n %{lib32name_devel}
+%{_prefix}/lib/%{name}.so
+%{_prefix}/lib/pkgconfig/%{bname}.pc
+
+%files -n %{lib32namex11_devel}
+%{_prefix}/lib/%{name}-x11.so
+%{_prefix}/lib/pkgconfig/%{bname}-x11.pc
+%endif
