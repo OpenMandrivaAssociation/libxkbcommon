@@ -9,6 +9,8 @@
 %define libnamex11 %mklibname %{bname}-x11 %{major}
 %define libname_devel %mklibname %{bname} -d
 %define libnamex11_devel %mklibname %{bname}-x11 -d
+%define libnamereg %mklibname xkbregistry %{major}
+%define libnamereg_devel %mklibname xkbregistry -d
 %define lib32name %mklib32name %{bname} %{major}
 %define lib32namex11 %mklib32name %{bname}-x11 %{major}
 %define lib32name_devel %mklib32name %{bname} -d
@@ -66,6 +68,13 @@ Obsoletes:	%{_lib}xkbcommon-x110 < 0.4.2-4
 %description -n %{libnamex11}
 This package contains the libraries for X11 bits of %{name}.
 
+%package -n %{libnamereg}
+Summary:	Libraries for xkbregistry bits of %{name}
+Group:		System/Libraries
+
+%description -n %{libnamereg}
+This package contains the libraries for xkbregistry bits of %{name}.
+
 %package -n %{libname_devel}
 Summary:	Header files for %{name}
 Group:		Development/C
@@ -85,6 +94,16 @@ Requires:	%{libname_devel} = %{version}-%{release}
 %description -n %{libnamex11_devel}
 This package contains the header and pkg-config files for developing
 with X11 bits of %{name}.
+
+%package -n %{libnamereg_devel}
+Summary:	Header files for xkbregistry bits of %{name}
+Group:		Development/C
+Requires:	%{libnamereg} = %{version}-%{release}
+Requires:	%{libname_devel} = %{version}-%{release}
+
+%description -n %{libnamereg_devel}
+This package contains the header and pkg-config files for developing
+with xkbregistry bits of %{name}.
 
 %package doc
 Summary:	%{name} documentation
@@ -144,7 +163,8 @@ with X11 bits of %{name}.
 # FIXME at some point, we'll probably want to enable wayland.
 # For now, wine and steam games don't do wayland anyway.
 %meson32 \
-	-Denable-wayland=false
+	-Denable-wayland=false \
+	-Denable-xkbregistry=false
 %endif
 %meson
 
@@ -168,6 +188,10 @@ with X11 bits of %{name}.
 %{_libdir}/%{name}-x11.so.%{major}
 %{_libdir}/%{name}-x11.so.%{major}.*
 
+%files -n %{libnamereg}
+%{_libdir}/libxkbregistry.so.%{major}
+%{_libdir}/libxkbregistry.so.%{major}.*
+
 %files -n %{libname_devel}
 %{_includedir}/%{bname}/%{bname}.h
 %{_includedir}/%{bname}/%{bname}-compat.h
@@ -182,8 +206,15 @@ with X11 bits of %{name}.
 %{_libdir}/%{name}-x11.so
 %{_libdir}/pkgconfig/%{bname}-x11.pc
 
+%files -n %{libnamereg_devel}
+%{_includedir}/xkbcommon/xkbregistry.h
+%{_libdir}/libxkbregistry.so
+%{_libdir}/pkgconfig/xkbregistry.pc
+
 %files utils
 %{_bindir}/xkbcli
+%{_libexecdir}/xkbcommon/xkbcli-*
+%{_mandir}/man1/xkbcli*.1.*
 
 %files doc
 %doc %{_docdir}/%{name}/*
