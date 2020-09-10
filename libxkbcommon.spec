@@ -16,8 +16,8 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	0.10.0
-Release:	3
+Version:	1.0.0
+Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(wayland-scanner)
 BuildRequires:	pkgconfig(wayland-protocols)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
+BuildRequires:	pkgconfig(libxml-2.0)
 %if %{with compat32}
 BuildRequires:	devel(libxcb-xkb)
 BuildRequires:	devel(libX11-xcb)
@@ -90,6 +91,13 @@ Group:		Development/Other
 
 %description doc
 This package contains documentation of %{name}.
+
+%package utils
+Summary:	X.Org X11 XKB parsing utilities
+Requires:	%{name} = %{EVRD}
+
+%description utils
+%{name}-utils is a set of utilities to analyze and test XKB parsing.
 
 %if %{with compat32}
 %package -n %{lib32name}
@@ -172,6 +180,9 @@ with X11 bits of %{name}.
 %{_includedir}/%{bname}/%{bname}-x11.h
 %{_libdir}/%{name}-x11.so
 %{_libdir}/pkgconfig/%{bname}-x11.pc
+
+%files utils
+%{_bindir}/xkbcli
 
 %files doc
 %doc %{_docdir}/%{name}/*
