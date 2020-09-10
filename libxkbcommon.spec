@@ -27,6 +27,7 @@ BuildRequires:	flex
 BuildRequires:	x11-util-macros
 BuildRequires:	doxygen
 BuildRequires:	meson
+BuildRequires:	cmake
 BuildRequires:	pkgconfig(xcb-xkb)
 BuildRequires:	pkgconfig(xkeyboard-config)
 BuildRequires:	pkgconfig(wayland-client)
