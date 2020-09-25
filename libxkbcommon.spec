@@ -19,7 +19,7 @@
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	1.0.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -78,8 +78,8 @@ This package contains the libraries for xkbregistry bits of %{name}.
 %package -n %{libname_devel}
 Summary:	Header files for %{name}
 Group:		Development/C
-Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
+Provides:	%{name}-devel = %{EVRD}
+Requires:	%{libname} = %{EVRD}
 
 %description -n %{libname_devel}
 This package contains the header and pkg-config files for developing
@@ -114,7 +114,7 @@ This package contains documentation of %{name}.
 
 %package utils
 Summary:	X.Org X11 XKB parsing utilities
-Requires:	%{name} = %{EVRD}
+Requires:	%{name}
 
 %description utils
 %{name}-utils is a set of utilities to analyze and test XKB parsing.
