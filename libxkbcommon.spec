@@ -114,7 +114,7 @@ This package contains documentation of %{name}.
 
 %package utils
 Summary:	X.Org X11 XKB parsing utilities
-Requires:	%{name}
+Requires:	%{libname}
 
 %description utils
 %{name}-utils is a set of utilities to analyze and test XKB parsing.
