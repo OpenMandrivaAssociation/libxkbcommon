@@ -18,7 +18,7 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	1.0.0
+Version:	1.0.1
 Release:	1
 License:	MIT
 Group:		System/Libraries
