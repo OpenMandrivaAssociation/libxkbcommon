@@ -18,7 +18,7 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	1.3.0
+Version:	1.3.1
 Release:	1
 License:	MIT
 Group:		System/Libraries
@@ -214,7 +214,7 @@ with X11 bits of %{name}.
 %files utils
 %{_bindir}/xkbcli
 %{_libexecdir}/xkbcommon/xkbcli-*
-%{_mandir}/man1/xkbcli*.1.*
+%doc %{_mandir}/man1/xkbcli*.1.*
 
 %files doc
 %doc %{_docdir}/%{name}/*
