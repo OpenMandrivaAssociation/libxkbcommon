@@ -18,7 +18,7 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	1.4.0
+Version:	1.4.1
 Release:	1
 License:	MIT
 Group:		System/Libraries
@@ -54,6 +54,7 @@ The %{name} package provides XKB API common to servers and clients.
 Summary:	Libraries for %{name}
 Group:		System/Libraries
 Requires:	xkeyboard-config
+Requires:	libx11-common
 
 %description -n %{libname}
 This package contains the libraries for %{name}.
