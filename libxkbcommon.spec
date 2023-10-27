@@ -8,7 +8,10 @@
 # DEBUG: >>> referenced by xvfb-wrapper.c:153 (../test/xvfb-wrapper.c:153)
 # DEBUG: >>>               lto.tmp:(main)
 # DEBUG: >>> the encapsulation symbol needs to be retained under --gc-sections properly; consider -z nostart-stop-gc (see https://lld.llvm.org/ELF/start-stop-gc)
-%global build_ldflags %{build_ldflags} -z nostart-stop-gc
+#
+# As of 1.6.0 with lld 17.0.3, -Wl,--undefined-version is needed because the check
+# for -Wl,--version-script is broken
+%global build_ldflags %{build_ldflags} -z nostart-stop-gc -Wl,--undefined-version
 
 %define bname xkbcommon
 %define major 0
@@ -26,7 +29,7 @@
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	1.6.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
