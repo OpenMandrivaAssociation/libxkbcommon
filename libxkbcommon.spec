@@ -3,6 +3,13 @@
 %bcond_without compat32
 %endif
 
+# (tpg) 2023-10-27
+# DEBUG: ld.lld: error: undefined symbol: __start_test_functions_section
+# DEBUG: >>> referenced by xvfb-wrapper.c:153 (../test/xvfb-wrapper.c:153)
+# DEBUG: >>>               lto.tmp:(main)
+# DEBUG: >>> the encapsulation symbol needs to be retained under --gc-sections properly; consider -z nostart-stop-gc (see https://lld.llvm.org/ELF/start-stop-gc)
+%global build_ldflags %{build_ldflags} -z nostart-stop-gc
+
 %define bname xkbcommon
 %define major 0
 %define libname %mklibname %{bname} %{major}
@@ -215,6 +222,7 @@ with X11 bits of %{name}.
 %files utils
 %{_bindir}/xkbcli
 %{_libexecdir}/xkbcommon/xkbcli-*
+%{_datadir}/bash-completion/completions/xkbcli
 %doc %{_mandir}/man1/xkbcli*.1.*
 
 %files doc
