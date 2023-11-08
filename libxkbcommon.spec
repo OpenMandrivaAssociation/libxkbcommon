@@ -29,11 +29,13 @@
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	1.6.0
-Release:	2
+Release:	3
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
 Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
+# https://github.com/xkbcommon/libxkbcommon/issues/403
+Patch0:		libxkbcommon-restore-keysyms-used-by-qt.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	x11-util-macros
