@@ -15,21 +15,29 @@
 
 %define bname xkbcommon
 %define major 0
-%define libname %mklibname %{bname} %{major}
-%define libnamex11 %mklibname %{bname}-x11 %{major}
+%define oldlibname %mklibname %{bname} 0
+%define libname %mklibname %{bname}
+%define oldlibnamex11 %mklibname %{bname}-x11 0
+%define libnamex11 %mklibname %{bname}-x11
 %define libname_devel %mklibname %{bname} -d
 %define libnamex11_devel %mklibname %{bname}-x11 -d
-%define libnamereg %mklibname xkbregistry %{major}
+%define oldlibnamereg %mklibname xkbregistry 0
+%define libnamereg %mklibname xkbregistry
 %define libnamereg_devel %mklibname xkbregistry -d
-%define lib32name %mklib32name %{bname} %{major}
-%define lib32namex11 %mklib32name %{bname}-x11 %{major}
+%define oldlib32name %mklib32name %{bname} 0
+%define lib32name %mklib32name %{bname}
+%define oldlib32namex11 %mklib32name %{bname}-x11 0
+%define lib32namex11 %mklib32name %{bname}-x11
+# 32-bit xkbregistry wasn't packaged before naming policy changes
+%define lib32namereg %mklib32name xkbregistry
 %define lib32name_devel %mklib32name %{bname} -d
 %define lib32namex11_devel %mklib32name %{bname}-x11 -d
+%define lib32namereg_devel %mklib32name xkbregistry -d
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	1.6.0
-Release:	3
+Release:	4
 License:	MIT
 Group:		System/Libraries
 Url:		http://xkbcommon.org/
@@ -57,26 +65,34 @@ BuildRequires:	devel(libxcb)
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libXdmcp)
 BuildRequires:	devel(libxml2)
+BuildRequires:	devel(libwayland-client)
+%if "%{name}" == "%{lib32name}"
+%rename %{oldlib32name}
+%endif
+%endif
+%if "%{name}" == "%{libname}"
+%rename %{oldlibname}
 %endif
 
 %description
 The %{name} package provides XKB API common to servers and clients.
 
+%if "%{name}" != "%{libname}"
 %package -n %{libname}
 Summary:	Libraries for %{name}
 Group:		System/Libraries
 Requires:	xkeyboard-config
 Recommends:	libx11-common
+%rename %{oldlibname}
 
 %description -n %{libname}
 This package contains the libraries for %{name}.
+%endif
 
 %package -n %{libnamex11}
 Summary:	Libraries for X11 bits of %{name}
 Group:		System/Libraries
-# (tpg) fix update from 2014.x
-Provides:	%{_lib}xkbcommon-x110 = 0.4.2-4
-Obsoletes:	%{_lib}xkbcommon-x110 < 0.4.2-4
+%rename %{oldlibnamex11}
 
 %description -n %{libnamex11}
 This package contains the libraries for X11 bits of %{name}.
@@ -84,6 +100,7 @@ This package contains the libraries for X11 bits of %{name}.
 %package -n %{libnamereg}
 Summary:	Libraries for xkbregistry bits of %{name}
 Group:		System/Libraries
+%rename %{oldlibnamereg}
 
 %description -n %{libnamereg}
 This package contains the libraries for xkbregistry bits of %{name}.
@@ -133,17 +150,21 @@ Requires:	%{libname}
 %{name}-utils is a set of utilities to analyze and test XKB parsing.
 
 %if %{with compat32}
+%if "%{name}" != "%{lib32name}"
 %package -n %{lib32name}
 Summary:	Libraries for %{name} (32-bit)
 Group:		System/Libraries
 Requires:	xkeyboard-config
+%rename %{oldlib32name}
 
 %description -n %{lib32name}
 This package contains the libraries for %{name}.
+%endif
 
 %package -n %{lib32namex11}
 Summary:	Libraries for X11 bits of %{name} (32-bit)
 Group:		System/Libraries
+%rename %{oldlib32namex11}
 
 %description -n %{lib32namex11}
 This package contains the libraries for X11 bits of %{name}.
@@ -168,16 +189,31 @@ Requires:	%{lib32name_devel} = %{version}-%{release}
 %description -n %{lib32namex11_devel}
 This package contains the header and pkg-config files for developing
 with X11 bits of %{name}.
+
+%package -n %{lib32namereg}
+Summary:	Libraries for the XKB Registry (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32namereg}
+This package contains the libraries for the XKB Registry (32-bit).
+
+%package -n %{lib32namereg_devel}
+Summary:	Header files for %{name} (32-bit)
+Group:		Development/C
+Requires:	%{libname_devel} = %{version}-%{release}
+Requires:	%{lib32namereg} = %{version}-%{release}
+
+%description -n %{lib32namereg_devel}
+This package contains the header and pkg-config files for developing
+with %{name}.
 %endif
 
 %prep
 %autosetup -p1
 %if %{with compat32}
-# FIXME at some point, we'll probably want to enable wayland.
-# For now, wine and steam games don't do wayland anyway.
 %meson32 \
-	-Denable-wayland=false \
-	-Denable-xkbregistry=false
+	-Denable-wayland=true \
+	-Denable-xkbregistry=true
 %endif
 %meson
 
@@ -238,6 +274,10 @@ with X11 bits of %{name}.
 %{_prefix}/lib/%{name}.so.%{major}
 %{_prefix}/lib/%{name}.so.%{major}.*
 
+%files -n %{lib32namereg}
+%{_prefix}/lib/libxkbregistry.so.%{major}
+%{_prefix}/lib/libxkbregistry.so.%{major}.*
+
 %files -n %{lib32namex11}
 %{_prefix}/lib/%{name}-x11.so.%{major}
 %{_prefix}/lib/%{name}-x11.so.%{major}.*
@@ -249,4 +289,8 @@ with X11 bits of %{name}.
 %files -n %{lib32namex11_devel}
 %{_prefix}/lib/%{name}-x11.so
 %{_prefix}/lib/pkgconfig/%{bname}-x11.pc
+
+%files -n %{lib32namereg_devel}
+%{_prefix}/lib/libxkbregistry.so
+%{_prefix}/lib/pkgconfig/xkbregistry.pc
 %endif
