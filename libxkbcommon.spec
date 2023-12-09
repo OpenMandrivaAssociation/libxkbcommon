@@ -66,6 +66,7 @@ BuildRequires:	devel(libXau)
 BuildRequires:	devel(libXdmcp)
 BuildRequires:	devel(libxml2)
 BuildRequires:	devel(libwayland-client)
+BuildRequires:	devel(libffi)
 %if "%{name}" == "%{lib32name}"
 %rename %{oldlib32name}
 %endif
