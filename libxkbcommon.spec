@@ -230,6 +230,12 @@ with %{name}.
 %endif
 %meson_install
 
+%if %{cross_compiling}
+# bash-completions get installed in the wrong place
+# when cross compiling
+mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/* %{buildroot}%{_datadir}
+%endif
+
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}
 %{_libdir}/%{name}.so.%{major}.*
@@ -264,7 +270,7 @@ with %{name}.
 %files utils
 %{_bindir}/xkbcli
 %{_libexecdir}/xkbcommon/xkbcli-*
-%optional %{_datadir}/bash-completion/completions/xkbcli
+%{_datadir}/bash-completion/completions/xkbcli
 %doc %{_mandir}/man1/xkbcli*.1.*
 
 %files doc
