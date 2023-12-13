@@ -264,7 +264,7 @@ with %{name}.
 %files utils
 %{_bindir}/xkbcli
 %{_libexecdir}/xkbcommon/xkbcli-*
-%{_datadir}/bash-completion/completions/xkbcli
+%optional %{_datadir}/bash-completion/completions/xkbcli
 %doc %{_mandir}/man1/xkbcli*.1.*
 
 %files doc
