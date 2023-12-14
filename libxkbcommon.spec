@@ -231,9 +231,14 @@ with %{name}.
 %meson_install
 
 %if %{cross_compiling}
-# bash-completions get installed in the wrong place
-# when cross compiling
-mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/* %{buildroot}%{_datadir}
+if [ -d %{buildroot}%{_prefix}/%{_target_platform} ]; then
+	# FIXME
+	# bash-completions sometimes get installed in the wrong place
+	# when cross compiling (depending on whether or not the HOST
+	# bash-completions pkgconfig file is installed)
+	# For now, let's fix it here
+	mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/* %{buildroot}%{_datadir}
+fi
 %endif
 
 %files -n %{libname}
