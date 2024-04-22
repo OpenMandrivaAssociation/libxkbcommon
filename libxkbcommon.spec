@@ -52,6 +52,7 @@ BuildRequires:	pkgconfig(xkeyboard-config)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:	pkgconfig(wayland-scanner)
 BuildRequires:	pkgconfig(wayland-protocols)
+BuildRequires:	pkgconfig(liblzma)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
 BuildRequires:	pkgconfig(libxml-2.0)
