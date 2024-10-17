@@ -40,7 +40,7 @@ Version:	1.7.0
 Release:	1
 License:	MIT
 Group:		System/Libraries
-Url:		http://xkbcommon.org/
+Url:		https://xkbcommon.org/
 Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	flex
