@@ -1,3 +1,4 @@
+%undefine _debugsource_packages
 # libxkbcommon is used by sdl2, used by wine and many games
 %ifarch %{x86_64}
 %bcond_without compat32
