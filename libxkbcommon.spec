@@ -36,12 +36,13 @@
 
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
-Version:	1.7.0
+Version:	1.8.1
 Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		https://xkbcommon.org/
-Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
+Source0:	https://github.com/xkbcommon/libxkbcommon/archive/libxkbcommon-xkbcommon-1.8.1.tar.gz
+#Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	x11-util-macros
@@ -210,7 +211,7 @@ with %{name}.
 %endif
 
 %prep
-%autosetup -p1
+%autosetup -n libxkbcommon-xkbcommon-%{version} -p1
 %if %{with compat32}
 %meson32 \
 	-Denable-wayland=true \
