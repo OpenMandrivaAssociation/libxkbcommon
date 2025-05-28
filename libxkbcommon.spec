@@ -42,7 +42,7 @@ Release:	1
 License:	MIT
 Group:		System/Libraries
 Url:		https://xkbcommon.org/
-Source0:	https://github.com/xkbcommon/libxkbcommon/archive/libxkbcommon-xkbcommon-1.8.1.tar.gz
+Source0:	https://github.com/xkbcommon/libxkbcommon/archive/libxkbcommon-xkbcommon-%{version}.tar.gz
 #Source0:	http://xkbcommon.org/download/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	flex
