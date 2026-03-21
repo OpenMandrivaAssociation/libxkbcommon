@@ -38,7 +38,7 @@
 Summary:	XKB API common to servers and clients
 Name:		libxkbcommon
 Version:	1.12.3
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 Url:		https://xkbcommon.org/
@@ -57,7 +57,7 @@ BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:	pkgconfig(liblzma)
 # to auto-detect XKB config root
 BuildRequires:	x11-data-xkbdata
-BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libxml-2.0) >= 2.15.2
 %if %{with compat32}
 BuildRequires:	devel(libxcb-xkb)
 BuildRequires:	devel(libX11-xcb)
@@ -65,7 +65,7 @@ BuildRequires:	devel(libX11)
 BuildRequires:	devel(libxcb)
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libXdmcp)
-BuildRequires:	devel(libxml2)
+BuildRequires:	devel(libxml2) >= 2.15.2
 BuildRequires:	devel(libwayland-client)
 BuildRequires:	devel(libffi)
 BuildRequires:	devel(liblzma)
